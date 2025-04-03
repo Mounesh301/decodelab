@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DeCodeLab</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="https://raw.githubusercontent.com/gramener/assets/main/straive-favicon.svg"
+    />
+    <!-- Your external CSS file -->
+    <link rel="stylesheet" href="style.css" />
+    <!-- JSZip for reading .zip files in the browser -->
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  </head>
+  <body>
+    <!-- Fixed Top Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">DeCodeLab</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="nav-item dropdown ms-auto" role="group" aria-label="Toggle dark mode" title="Toggle Dark Mode">
+            <button class="dark-theme-toggle btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false" aria-label="Toggle theme (auto)">
+              <i class="bi bi-circle-half"></i> <span class="d-lg-none ms-2">Toggle theme</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><button class="dropdown-item" data-bs-theme-value="light"><i class="me-2 bi bi-sun-fill"></i> Light</button></li>
+              <li><button class="dropdown-item" data-bs-theme-value="dark"><i class="me-2 bi bi-moon-stars-fill"></i> Dark</button></li>
+              <li><button class="dropdown-item" data-bs-theme-value="auto"><i class="me-2 bi bi-circle-half"></i> Auto</button></li>
+            </ul>
+          </div>
+        </div>  
+      </div>
+    </nav>
+
+    <!-- Fixed Sidebar Navigation -->
+    <nav id="sidebar" data-bs-theme="dark">
+      <ul class="list-unstyled components">
+        <li>
+          <a href="#home">
+            <i class="bi bi-house"></i> Home
+          </a>
+        </li>
+        <li>
+          <a href="#ingest">
+            <i class="bi bi-cloud-arrow-up"></i> Ingest with Q&A
+          </a>
+        </li>  
+        <li>
+          <a href="#components">
+            <i class="bi bi-list-check"></i> Entities & Functions
+          </a>
+        </li>
+        <li>
+          <a href="#brd">
+            <i class="bi bi-file-text"></i> BRD
+          </a>
+        </li>
+        <li>
+          <a href="#testcases">
+            <i class="bi bi-clipboard-check"></i> Test Cases
+          </a>
+        </li>
+        <li>
+          <a href="#pseudocodes">
+            <i class="bi bi-code-slash"></i> Pseudo Code
+          </a>
+        </li>
+        <li>
+          <a href="#databaseAnalysis">
+            <i class="bi bi-database-fill-gear"></i> Analyze DB
+          </a>
+        </li>
+        <li>
+          <a href="#rdbmsschema">
+            <i class="bi bi-diagram-3"></i> RDBMS Schema
+          </a>
+        </li>
+        <li>
+          <a href="#diagrams">
+            <i class="bi bi-diagram-3"></i> Diagram Generator
+          </a>
+        </li>
+        <li>
+          <a href="#userguide">
+            <i class="bi bi-journal"></i> User Guide
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div id="main-content">
+      <!-- Section: Home (Q&A & Ingest) -->
+      <section id="home" class="pt-4">
+        <div class="container-fluid">
+          <!-- Header Section -->
+          <h2 class="display-1 my-4 text-center">DeCodeLab</h2>
+          <h3 class="display-6 text-center">Unlock the Secrets of Your Code</h3>
+          <!-- Narrative Section -->
+          <div class="mx-auto my-3 narrative">
+            <p>
+              Welcome to <strong>DeCodeLab</strong> – your comprehensive solution for reverse engineering and code analysis.
+              Our platform enables you to upload individual code files or entire ZIP archives and automatically generates in-depth insights.
+            </p>
+            <p>
+              Explore our <a href="https://drive.google.com/drive/folders/1Sc1ej4xVLCdLbUUvVCgpjPtTgCHG9mCu?usp=drive_link">sample documents</a> to see DeCodeLab in action.
+            </p>
+            <p>
+              With DeCodeLab you can:
+            </p>
+            <ul>
+              <li>
+                <strong>Ingest & Analyze Code:</strong> Upload files with advanced include/exclude filtering and a dynamic file-size slider, then view a detailed summary and virtual directory structure.
+              </li>
+              <li>
+                <strong>Interactive Q&A:</strong> Ask specific questions about your code and receive clear, AI-generated explanations.
+              </li>
+              <li>
+                <strong>BRD, Test Cases & Pseudo Code Generation:</strong> Automatically generate comprehensive Business Requirements Documents, test cases, and pseudo code for your projects.
+              </li>
+              <li>
+                <strong>Database & Schema Analysis:</strong> Uncover legacy database structures and generate modern RDBMS schemas.
+              </li>
+              <li>
+                <strong>Diagram Generation:</strong> Create Mermaid diagrams—such as sequence, data flow, class, and state diagrams—to visually map out code flows and interactions.
+              </li>
+              <li>
+                <strong>User Guide Generation:</strong> Produce detailed user guides to help stakeholders understand system functionalities.
+              </li>
+            </ul>
+          </div>
+        </div>        
+      </section>
+    
+      <!-- Section: Ingest with Q&A -->
+      <section id="ingest" class="pt-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="bi bi-house"></i> Code Upload, Ingest & Q&A
+          </div>
+          <div class="card-body">
+            <!-- File Input for Code Upload (.zip or code files) -->
+            <div class="mb-3">
+              <label for="codeFile" class="form-label">Upload your code file(s) or .zip:</label>
+              <input
+                type="file"
+                id="codeFile"
+                class="form-control"
+                multiple
+                accept=".txt,.html,.js,.css,.py,.java,.c,.cpp,.ts,.zip"
+              />
+            </div>
+
+            <!-- Include/Exclude Patterns -->
+            <div class="row mb-3">
+              <div class="col-md-3">
+                <label for="patternType" class="form-label">Include / Exclude</label>
+                <select id="patternType" class="form-select">
+                  <option value="exclude" selected>Exclude</option>
+                  <option value="include">Include</option>
+                </select>
+              </div>
+              <div class="col-md-9">
+                <label for="patternValue" class="form-label">Patterns (comma or space-separated)</label>
+                <input
+                  type="text"
+                  id="patternValue"
+                  class="form-control"
+                  placeholder="e.g. *.md, docs/, *.png"
+                />
+              </div>
+            </div>
+
+            <!-- Slider for file size -->
+            <div class="mb-3">
+              <label for="fileSizeSlider" class="form-label">
+                Include files under: <span id="sliderLabel" class="fw-bold">50 KB</span>
+              </label>
+              <input
+                type="range"
+                id="fileSizeSlider"
+                class="form-range"
+                min="0"
+                max="500"
+                value="244"
+                oninput="updateSliderLabel(this.value)"
+              />
+            </div>
+
+            <!-- Ingest Button -->
+            <button id="ingestBtn" class="btn btn-primary mb-3">
+              <i class="bi bi-cloud-upload"></i> Ingest Code
+            </button>
+
+            <!-- New "Upload Samples" Button -->
+            <button id="samplebtn" class="btn btn-secondary mb-3">
+              <i class="bi bi-folder2-open"></i> Upload Samples
+            </button>
+
+            <!-- Optional error message area for ingestion -->
+            <div id="ingestError" class="alert alert-danger d-none"></div>
+
+            <!-- Q&A Area -->
+            <div class="mb-3">
+              <textarea
+                id="questionInput"
+                class="form-control"
+                placeholder="Enter your question regarding the code functionality..."
+              ></textarea>
+            </div>
+            <button id="askQuestionBtn" class="btn btn-primary mb-3">
+              <i class="bi bi-send"></i> Ask Question
+            </button>
+            <!-- Answer Output -->
+            <div id="questionOutput" class="mb-3 p-2 border rounded">
+              <em>The answer will appear here.</em>
+            </div>
+            <!-- Copy Answer Button -->
+            <button id="copyAnswerBtn" class="btn btn-outline-secondary btn-sm">
+              <i class="bi bi-clipboard"></i> Copy Answer
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Components & Function Calls -->
+      <section id="components" class="pt-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="bi bi-list-check"></i> Entity & Function Calls
+          </div>
+          <div class="card-body">
+            <button id="analyzeComponentsBtn" class="btn btn-secondary mb-3">
+              <i class="bi bi-search"></i> Analyze Entity & Function Calls
+            </button>
+            <div id="loadingAnalysis" class="loading text-center">
+              <div class="spinner-border text-primary" role="status"></div>
+              <p>Analyzing code...</p>
+            </div>
+            <div id="analysisError" class="alert alert-danger d-none"></div>
+            <div class="row">
+              <div class="col-md-6">
+                <h5><i class="bi bi-diagram-2"></i> Entities</h5>
+                <ul id="entityList" class="list-group mb-3 scrollable-list"></ul>
+              </div>
+              <div class="col-md-6">
+                <h5><i class="bi bi-arrow-right-circle"></i> Function/API Calls</h5>
+                <ul id="functionList" class="list-group scrollable-list"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: BRD -->
+      <section id="brd" class="pt-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="bi bi-file-text"></i> BRD Document
+          </div>
+          <div class="card-body">
+            <div class="mb-3 d-flex gap-2">
+              <button id="generateBrdBtn" class="btn btn-success">
+                <i class="bi bi-lightbulb"></i> Generate BRD
+              </button>
+              <button id="copyBrdBtn" class="btn btn-outline-primary">
+                <i class="bi bi-clipboard"></i> Copy BRD
+              </button>
+              <div id="brdLoading" class="loading text-center ms-3">
+                <div class="spinner-border text-success" role="status"></div>
+                <p>Generating BRD...</p>
+              </div>
+              <div id="brdError" class="alert alert-danger d-none flex-fill"></div>
+            </div>
+            <div class="mb-3">
+              <div id="brdContent" class="p-2 border rounded" style="min-height: 400px;">
+                <em>Your generated BRD will appear here.</em>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Test Cases -->
+      <section id="testcases" class="pt-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="bi bi-clipboard-check"></i> Test Cases Generator
+          </div>
+          <div class="card-body">
+            <button id="generateTestCasesBtn" class="btn btn-warning">
+              <i class="bi bi-play"></i> Generate Test Cases
+            </button>
+            <button id="copyTestCasesBtn" class="btn btn-outline-primary">
+              <i class="bi bi-clipboard"></i> Copy Test Cases
+            </button>
+            <textarea
+              id="testCasesOutput"
+              class="form-control mb-3"
+              placeholder="Generated test cases will appear here..."
+              readonly
+            ></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Pseudo Code -->
+      <section id="pseudocodes" class="pt-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="bi bi-code-slash"></i> Pseudo Code Generator
+          </div>
+          <div class="card-body">
+            <button id="generatePseudoCodeBtn" class="btn btn-info">
+              <i class="bi bi-play"></i> Generate Pseudo Code
+            </button>
+            <button id="copyPseudoCodeBtn" class="btn btn-outline-primary">
+              <i class="bi bi-clipboard"></i> Copy Pseudo Code
+            </button>
+            <textarea
+              id="pseudoCodeOutput"
+              class="form-control mb-3"
+              placeholder="Generated pseudo code will appear here..."
+              readonly
+            ></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Database Analysis -->
+      <section id="databaseAnalysis" class="pt-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="bi bi-database-fill-gear"></i> Database Analysis
+          </div>
+          <div class="card-body">
+            <button id="analyzeDatabaseBtn" class="btn btn-primary mb-3">
+              <i class="bi bi-search"></i> Analyze Database
+            </button>
+            <div id="dbanalysisLoading" class="loading text-center">
+              <div class="spinner-border text-primary" role="status"></div>
+              <p>Analyzing database...</p>
+            </div>
+            <div id="dbanalysisError" class="alert alert-danger d-none"></div>
+            <div id="dbanalysisResult" class="p-2 border rounded" style="min-height:200px;">
+              <em>Database analysis result will appear here.</em>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: RDBMS Schema -->
+      <section id="rdbmsschema" class="pt-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="bi bi-diagram-3"></i> RDBMS Schema
+          </div>
+          <div class="card-body">
+            <button id="generateSchemaBtn" class="btn btn-success mb-3">
+              <i class="bi bi-diagram-3"></i> Generate RDBMS Schema
+            </button>
+            <div id="schemaLoading" class="loading text-center">
+              <div class="spinner-border text-success" role="status"></div>
+              <p>Generating schema...</p>
+            </div>
+            <div id="schemaError" class="alert alert-danger d-none"></div>
+            <div id="schemaResult" class="p-2 border rounded" style="min-height:200px;">
+              <em>RDBMS schema result will appear here.</em>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Diagram Generator -->
+      <section id="diagrams" class="pt-4 mb-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="bi bi-diagram-3"></i> Diagram Generator
+          </div>
+          <div class="card-body">
+            <div class="btn-group mb-3 d-flex flex-wrap justify-content-center" role="group" aria-label="Diagram Types">
+              <button class="btn btn-outline-primary m-1" data-diagram="sequence">
+                <i class="bi bi-arrow-down-up"></i> Sequence
+              </button>
+              <button class="btn btn-outline-primary m-1" data-diagram="dfd">
+                <i class="bi bi-diagram-3"></i> Data Flow
+              </button>
+              <button class="btn btn-outline-primary m-1" data-diagram="class">
+                <i class="bi bi-diagram-1"></i> Class
+              </button>
+              <button class="btn btn-outline-primary m-1" data-diagram="state">
+                <i class="bi bi-diagram-4"></i> State
+              </button>
+            </div>
+            <div id="loadingDiagram" class="loading text-center">
+              <div class="spinner-border text-primary" role="status"></div>
+              <p>Generating diagram...</p>
+            </div>
+            <div id="diagramError" class="alert alert-danger d-none"></div>
+            <div id="diagramContainer" class="diagram-container">
+              <div class="text-center text-muted">
+                <i class="bi bi-image fs-1"></i>
+                <p>Select a diagram type to generate</p>
+              </div>
+            </div>
+            <div id="diagramActions" class="d-none">
+              <button id="openTabButton" class="btn btn-success mb-3">Open in New Tab (SVG)</button>
+              <button id="downloadSvgButton" class="btn btn-success mb-3">Download as SVG</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: User Guide -->
+      <section id="userguide" class="pt-4 mb-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="bi bi-journal"></i> User Guide
+          </div>
+          <div class="card-body">
+            <button id="generateUserGuideBtn" class="btn btn-secondary mb-3">
+              <i class="bi bi-book"></i> Generate User Guide
+            </button>
+            <button id="copyUserGuideBtn" class="btn btn-outline-secondary mb-3">
+              <i class="bi bi-clipboard"></i> Copy User Guide
+            </button>
+            <div id="userGuideLoading" class="loading text-center">
+              <div class="spinner-border text-secondary" role="status"></div>
+              <p>Generating user guide...</p>
+            </div>
+            <div id="userGuideError" class="alert alert-danger d-none"></div>
+            <div id="userGuideContent" class="p-2 border rounded" style="min-height:200px;">
+              <em>Your user guide will appear here.</em>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Explanation Modal (for clickable Entities/Functions) -->
+    <div
+      class="modal fade"
+      id="explanationModal"
+      tabindex="-1"
+      aria-labelledby="explanationModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="explanationModalLabel">Details</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body" id="explanationModalBody">
+            <!-- LLM response will be inserted here -->
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ingestion Results Modal -->
+    <div
+      class="modal fade"
+      id="ingestionResultsModal"
+      tabindex="-1"
+      aria-labelledby="ingestionResultsLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ingestionResultsLabel">Ingestion Results</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="resultsDisplaySelect" class="form-label fw-semibold">Choose what to display:</label>
+              <select id="resultsDisplaySelect" class="form-select" onchange="changeDisplayedIngestionText()">
+                <option value="summary">Total Summary</option>
+                <option value="directory">Directory Structure</option>
+                <option value="files">File Content</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <textarea
+                id="resultsDisplayArea"
+                class="form-control"
+                style="height: 250px; white-space: pre-wrap;"
+                readonly
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="copyCurrentIngestionView()">Copy Current View</button>
+            <button class="btn btn-secondary" onclick="copyAllIngestionData()">Copy All</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW: Sample Files Modal -->
+    <div class="modal fade" id="sampleModal" tabindex="-1" aria-labelledby="sampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sampleModalLabel">Select a Sample File</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <ul id="sampleFileList" class="list-group">
+              <!-- This list will be populated dynamically via JS with file names from the data folder -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS, Mermaid, and custom script -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@gramex/ui@0.3/dist/dark-theme.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
