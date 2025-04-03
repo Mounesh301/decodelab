@@ -499,6 +499,14 @@ function humanFileSize(bytes) {
   return `${(bytes/(1024*1024)).toFixed(1)} MB`;
 }
 
+function cleanHTML(htmlString) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, "text/html");
+  // Remove all style attributes from all elements
+  doc.body.querySelectorAll("[style]").forEach(el => el.removeAttribute("style"));
+  return doc.body.innerHTML;
+}
+
 /*************************************************************
  * Ask a Question on Code Functionality
  *************************************************************/
@@ -808,7 +816,7 @@ async function generateBRD(code) {
       </section>`;
     }
   }
-  brdContent.innerHTML = finalBRDHTML;
+  brdContent.innerHTML = cleanHTML(finalBRDHTML);
   brdLoading.style.display = 'none';
 }
 
@@ -948,7 +956,7 @@ document.getElementById('analyzeDatabaseBtn').addEventListener('click', async ()
 
   try {
     const analysisHTML = await analyzeDatabase(window.ingestedCode);
-    dbanalysisResult.innerHTML = analysisHTML;
+    dbanalysisResult.innerHTML = cleanHTML(analysisHTML);
   } catch (error) {
     dbanalysisError.textContent = error.message;
     dbanalysisError.classList.remove('d-none');
@@ -1014,7 +1022,7 @@ document.getElementById('generateSchemaBtn').addEventListener('click', async () 
 
   try {
     const schemaHTML = await generateRdbmsSchema(window.ingestedCode);
-    schemaResult.innerHTML = schemaHTML;
+    schemaResult.innerHTML = cleanHTML(schemaHTML);
   } catch (error) {
     schemaError.textContent = error.message;
     schemaError.classList.remove('d-none');
@@ -1286,7 +1294,7 @@ async function generateUserGuide(code) {
     if (!guide) {
       throw new Error("No user guide content returned.");
     }
-    userGuideContent.innerHTML = guide;
+    userGuideContent.innerHTML = cleanHTML(guide);
   } catch (err) {
     userGuideError.textContent = err.message;
     userGuideError.classList.remove('d-none');
