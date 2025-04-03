@@ -707,9 +707,10 @@ async function generateBRD(code) {
   const brdError = document.getElementById('brdError');
   const brdContent = document.getElementById('brdContent');
 
+  // Show the loading indicator and clear previous content
   brdLoading.style.display = 'block';
   brdError.classList.add('d-none');
-  brdContent.innerHTML = '<em>Generating BRD sections...</em>';
+  brdContent.innerHTML = '';
 
   const sections = [
     {
@@ -758,15 +759,20 @@ async function generateBRD(code) {
     }
   ];
 
-  let finalBRDHTML = '';
-
+  // Process each section sequentially, showing it as soon as it arrives
   for (let i = 0; i < sections.length; i++) {
     const section = sections[i];
-    brdContent.innerHTML = `<em>Generating section ${i + 1} of ${sections.length}: ${section.title}</em>`;
+
+    // Create a container for this section and append it to the BRD content container
+    const sectionDiv = document.createElement('section');
+    sectionDiv.id = section.title.replace(/\s+/g, '-').toLowerCase();
+    sectionDiv.innerHTML = `<em>Generating section ${i + 1} of ${sections.length}: ${section.title}</em>`;
+    brdContent.appendChild(sectionDiv);
+
     try {
       const response = await fetch("https://llmfoundry.straive.com/openai/v1/chat/completions", {
         method: "POST",
-        headers: {  "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
           model: "o3-mini-2025-01-31",
@@ -782,13 +788,13 @@ async function generateBRD(code) {
                 {
                   type: "text",
                   text: `
-  Reference only from this code:
-  ---------------
-  ${code}
-  ---------------
-  Generate the "${section.title}" section of a comprehensive BRD in HTML format.
-  ${section.instruction}
-  Respond with valid HTML only.`
+Reference only from this code:
+---------------
+${code}
+---------------
+Generate the "${section.title}" section of a comprehensive BRD in HTML format.
+${section.instruction}
+Respond with valid HTML only.`
                 }
               ]
             }
@@ -800,23 +806,17 @@ async function generateBRD(code) {
       if (data.error) {
         throw new Error(data.error.message);
       }
-
       const htmlSection = data?.choices?.[0]?.message?.content;
       if (!htmlSection) {
         throw new Error(`Invalid response for section "${section.title}"`);
       }
-      const cleanedHtmlSection = htmlSection.replace(/```(\w+)?/g, '').trim();
-      finalBRDHTML += `<section id="${section.title.replace(/\s+/g, '-').toLowerCase()}">
-        ${cleanedHtmlSection}
-      </section>`;
+      // Remove inline styles from the response HTML
+      sectionDiv.innerHTML = cleanHTML(htmlSection);
     } catch (err) {
-      finalBRDHTML += `<section id="${section.title.replace(/\s+/g, '-').toLowerCase()}">
-        <h5>${section.title}</h5>
-        <p class="text-danger">Error generating this section: ${err.message}</p>
-      </section>`;
+      sectionDiv.innerHTML = `<h5>${section.title}</h5>
+        <p class="text-danger">Error generating this section: ${err.message}</p>`;
     }
   }
-  brdContent.innerHTML = cleanHTML(finalBRDHTML);
   brdLoading.style.display = 'none';
 }
 
