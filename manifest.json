@@ -1,6 +1,7 @@
 {
   "samples": [
+    "Cobol_hrms_code.txt",
     "cobol-ims-banking.zip",
-    "Cobol_hrms_code.txt"
+    "cobol-ims-banking-with-md.zip"
   ]
 }
