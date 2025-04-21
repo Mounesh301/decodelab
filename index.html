@@ -21,10 +21,56 @@
       rel="icon"
       href="https://raw.githubusercontent.com/gramener/assets/main/straive-favicon.svg"
     />
-    <!-- Your external CSS file -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css" />
-    <!-- JSZip for reading .zip files in the browser -->
+    <!-- JSZip for reading ZIP files -->
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <style>
+        /* Add fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        section {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Add pulse animation for loading states */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .loading .spinner-border {
+            animation: pulse 2s infinite;
+        }
+
+        /* Enhance buttons with hover effect */
+        .btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::after {
+            width: 300%;
+            height: 300%;
+        }
+    </style>
   </head>
   <body>
     <!-- Fixed Top Navbar -->
@@ -46,138 +92,89 @@
           <div class="nav-item dropdown ms-auto" role="group" aria-label="Toggle dark mode" title="Toggle Dark Mode">
             <button class="dark-theme-toggle btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
               aria-expanded="false" aria-label="Toggle theme (auto)">
-              <i class="bi bi-circle-half"></i> <span class="d-lg-none ms-2">Toggle theme</span>
+              <i class="bi bi-circle-half"></i>
+              <span class="d-lg-none ms-2">Toggle theme</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><button class="dropdown-item" data-bs-theme-value="light"><i class="me-2 bi bi-sun-fill"></i> Light</button></li>
-              <li><button class="dropdown-item" data-bs-theme-value="dark"><i class="me-2 bi bi-moon-stars-fill"></i> Dark</button></li>
-              <li><button class="dropdown-item" data-bs-theme-value="auto"><i class="me-2 bi bi-circle-half"></i> Auto</button></li>
+              <li>
+                <button class="dropdown-item" data-bs-theme-value="light">
+                  <i class="bi bi-sun-fill me-2"></i>Light
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" data-bs-theme-value="dark">
+                  <i class="bi bi-moon-stars-fill me-2"></i>Dark
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" data-bs-theme-value="auto">
+                  <i class="bi bi-circle-half me-2"></i>Auto
+                </button>
+              </li>
             </ul>
           </div>
-        </div>  
+        </div>
       </div>
     </nav>
 
     <!-- Fixed Sidebar Navigation -->
     <nav id="sidebar" data-bs-theme="dark">
       <ul class="list-unstyled components">
-        <li>
-          <a href="#home">
-            <i class="bi bi-house"></i> Home
-          </a>
-        </li>
-        <li>
-          <a href="#ingest">
-            <i class="bi bi-cloud-arrow-up"></i> Ingest with Q&A
-          </a>
-        </li>  
-        <li>
-          <a href="#components">
-            <i class="bi bi-list-check"></i> Entities & Functions
-          </a>
-        </li>
-        <li>
-          <a href="#brd">
-            <i class="bi bi-file-text"></i> BRD
-          </a>
-        </li>
-        <li>
-          <a href="#testcases">
-            <i class="bi bi-clipboard-check"></i> Test Cases
-          </a>
-        </li>
-        <li>
-          <a href="#pseudocodes">
-            <i class="bi bi-code-slash"></i> Pseudo Code
-          </a>
-        </li>
-        <li>
-          <a href="#databaseAnalysis">
-            <i class="bi bi-database-fill-gear"></i> Analyze DB
-          </a>
-        </li>
-        <li>
-          <a href="#rdbmsschema">
-            <i class="bi bi-diagram-3"></i> RDBMS Schema
-          </a>
-        </li>
-        <li>
-          <a href="#diagrams">
-            <i class="bi bi-diagram-3"></i> Diagram Generator
-          </a>
-        </li>
-        <li>
-          <a href="#userguide">
-            <i class="bi bi-journal"></i> User Guide
-          </a>
-        </li>
+        <li><a href="#home"><i class="bi bi-house"></i> Home</a></li>
+        <li><a href="#ingest"><i class="bi bi-cloud-arrow-up"></i> Ingest with Q&A</a></li>
+        <li><a href="#components"><i class="bi bi-list-check"></i> Entities & Functions</a></li>
+        <li><a href="#brd"><i class="bi bi-file-text"></i> BRD</a></li>
+        <li><a href="#testcases"><i class="bi bi-clipboard-check"></i> Test Cases</a></li>
+        <li><a href="#pseudocodes"><i class="bi bi-code-slash"></i> Pseudo Code</a></li>
+        <li><a href="#databaseAnalysis"><i class="bi bi-database-fill-gear"></i> Analyze DB</a></li>
+        <li><a href="#rdbmsschema"><i class="bi bi-diagram-3"></i> RDBMS Schema</a></li>
+        <li><a href="#diagrams"><i class="bi bi-diagram-3"></i> Diagram Generator</a></li>
+        <li><a href="#userguide"><i class="bi bi-journal"></i> User Guide</a></li>
+        <!-- New Settings Button -->
+        <li><a href="#systemrequirements"><i class="bi bi-hdd-network"></i> System Requirements</a></li>
+        <li><a href="#" id="settingsBtn"><i class="bi bi-gear"></i> Settings</a></li>
       </ul>
     </nav>
 
     <!-- Main Content Area -->
     <div id="main-content">
-      <!-- Section: Home (Q&A & Ingest) -->
+      <!-- Home Section -->
       <section id="home" class="pt-4">
         <div class="container-fluid">
-          <!-- Header Section -->
           <h2 class="display-1 my-4 text-center">DeCodeLab</h2>
           <h3 class="display-6 text-center">Unlock the Secrets of Your Code</h3>
-          <!-- Narrative Section -->
           <div class="mx-auto my-3 narrative">
             <p>
               Welcome to <strong>DeCodeLab</strong> – your comprehensive solution for reverse engineering and code analysis.
-              Our platform enables you to upload individual code files or entire ZIP archives and automatically generates in-depth insights.
+              Upload your code files or ZIP archives to automatically generate detailed insights.
             </p>
             <p>
               Explore our <a href="https://drive.google.com/drive/folders/1Sc1ej4xVLCdLbUUvVCgpjPtTgCHG9mCu?usp=drive_link">sample documents</a> to see DeCodeLab in action.
             </p>
-            <p>
-              With DeCodeLab you can:
-            </p>
+            <p>With DeCodeLab you can:</p>
             <ul>
-              <li>
-                <strong>Ingest & Analyze Code:</strong> Upload files with advanced include/exclude filtering and a dynamic file-size slider, then view a detailed summary and virtual directory structure.
-              </li>
-              <li>
-                <strong>Interactive Q&A:</strong> Ask specific questions about your code and receive clear, AI-generated explanations.
-              </li>
-              <li>
-                <strong>BRD, Test Cases & Pseudo Code Generation:</strong> Automatically generate comprehensive Business Requirements Documents, test cases, and pseudo code for your projects.
-              </li>
-              <li>
-                <strong>Database & Schema Analysis:</strong> Uncover legacy database structures and generate modern RDBMS schemas.
-              </li>
-              <li>
-                <strong>Diagram Generation:</strong> Create Mermaid diagrams—such as sequence, data flow, class, and state diagrams—to visually map out code flows and interactions.
-              </li>
-              <li>
-                <strong>User Guide Generation:</strong> Produce detailed user guides to help stakeholders understand system functionalities.
-              </li>
+              <li><strong>Ingest & Analyze Code:</strong> Filter, ingest, and view a directory structure summary.</li>
+              <li><strong>Interactive Q&A:</strong> Ask questions about your code and receive AI-generated answers.</li>
+              <li><strong>BRD, Test Cases & Pseudo Code:</strong> Generate documentation automatically.</li>
+              <li><strong>Database & Schema Analysis:</strong> Uncover database structure and generate schemas.</li>
+              <li><strong>Diagram Generation:</strong> Create visualizations (Mermaid diagrams) of your code.</li>
+              <li><strong>User Guide Generation:</strong> Generate user guides for system functionalities.</li>
             </ul>
           </div>
-        </div>        
+        </div>
       </section>
-    
-      <!-- Section: Ingest with Q&A -->
+
+      <!-- Ingest Section -->
       <section id="ingest" class="pt-4">
         <div class="card mb-4">
           <div class="card-header">
-            <i class="bi bi-house"></i> Code Upload, Ingest & Q&A
+            <i class="bi bi-cloud-arrow-up"></i> Code Upload, Ingest & Q&A
           </div>
           <div class="card-body">
-            <!-- File Input for Code Upload (.zip or code files) -->
             <div class="mb-3">
-              <label for="codeFile" class="form-label">Upload your code file(s) or .zip:</label>
-              <input
-                type="file"
-                id="codeFile"
-                class="form-control"
-                multiple
-                accept=".txt,.html,.js,.css,.py,.java,.c,.cpp,.ts,.zip"
-              />
+              <label for="codeFile" class="form-label">Upload your code file(s) or ZIP:</label>
+              <input type="file" id="codeFile" class="form-control" multiple accept=".txt,.html,.js,.css,.py,.java,.c,.cpp,.ts,.zip" />
             </div>
-
-            <!-- Include/Exclude Patterns -->
             <div class="row mb-3">
               <div class="col-md-3">
                 <label for="patternType" class="form-label">Include / Exclude</label>
@@ -188,60 +185,31 @@
               </div>
               <div class="col-md-9">
                 <label for="patternValue" class="form-label">Patterns (comma or space-separated)</label>
-                <input
-                  type="text"
-                  id="patternValue"
-                  class="form-control"
-                  placeholder="e.g. *.md, docs/, *.png"
-                />
+                <input type="text" id="patternValue" class="form-control" placeholder="e.g. *.md, docs/, *.png" />
               </div>
             </div>
-
-            <!-- Slider for file size -->
             <div class="mb-3">
               <label for="fileSizeSlider" class="form-label">
                 Include files under: <span id="sliderLabel" class="fw-bold">50 KB</span>
               </label>
-              <input
-                type="range"
-                id="fileSizeSlider"
-                class="form-range"
-                min="0"
-                max="500"
-                value="244"
-                oninput="updateSliderLabel(this.value)"
-              />
+              <input type="range" id="fileSizeSlider" class="form-range" min="0" max="500" value="244" oninput="updateSliderLabel(this.value)" />
             </div>
-
-            <!-- Ingest Button -->
             <button id="ingestBtn" class="btn btn-primary mb-3">
               <i class="bi bi-cloud-upload"></i> Ingest Code
             </button>
-
-            <!-- New "Upload Samples" Button -->
             <button id="samplebtn" class="btn btn-secondary mb-3">
               <i class="bi bi-folder2-open"></i> Upload Samples
             </button>
-
-            <!-- Optional error message area for ingestion -->
             <div id="ingestError" class="alert alert-danger d-none"></div>
-
-            <!-- Q&A Area -->
             <div class="mb-3">
-              <textarea
-                id="questionInput"
-                class="form-control"
-                placeholder="Enter your question regarding the code functionality..."
-              ></textarea>
+              <textarea id="questionInput" class="form-control" placeholder="Enter your question regarding the code..."></textarea>
             </div>
             <button id="askQuestionBtn" class="btn btn-primary mb-3">
               <i class="bi bi-send"></i> Ask Question
             </button>
-            <!-- Answer Output -->
             <div id="questionOutput" class="mb-3 p-2 border rounded">
               <em>The answer will appear here.</em>
             </div>
-            <!-- Copy Answer Button -->
             <button id="copyAnswerBtn" class="btn btn-outline-secondary btn-sm">
               <i class="bi bi-clipboard"></i> Copy Answer
             </button>
@@ -249,6 +217,9 @@
         </div>
       </section>
 
+      <!-- Additional sections (Components, BRD, Test Cases, Pseudo Code, Database Analysis, RDBMS Schema, Diagram Generator, User Guide) should be added here -->
+
+      <!-- Other sections (Components, BRD, Test Cases, etc.) remain unchanged -->
       <!-- Section: Components & Function Calls -->
       <section id="components" class="pt-4">
         <div class="card mb-4">
@@ -320,7 +291,6 @@
             <button id="copyTestCasesBtn" class="btn btn-outline-primary">
               <i class="bi bi-clipboard"></i> Copy Test Cases
             </button>
-            <!-- Export Test Cases Button -->
             <button class="btn btn-outline-primary">
               <i class="bi bi-play"></i> Create Test Pack
             </button>
@@ -440,7 +410,27 @@
           </div>
         </div>
       </section>
-
+      <!-- Section: System Requirements -->
+      <section id="systemrequirements" class="pt-4 mb-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="bi bi-hdd-network"></i> System Requirements
+          </div>
+          <div class="card-body">
+            <ul>
+              <li><strong>Web Browser:</strong> Latest versions of Chrome, Firefox, Edge, or Safari</li>
+              <li><strong>Internet Connection:</strong> Required for AI features and cloud-based analysis</li>
+              <li><strong>File Upload:</strong> Supports .txt, .html, .js, .css, .py, .java, .c, .cpp, .ts, and .zip files</li>
+              <li><strong>Screen Resolution:</strong> Recommended minimum 1280x720</li>
+              <li><strong>JavaScript:</strong> Must be enabled in the browser</li>
+              <li><strong>Optional:</strong> API keys for selected AI providers (OpenAI, Gemini, Claude) if required</li>
+            </ul>
+            <p class="text-muted mt-2">
+              No installation required. All processing is performed in-browser or via secure cloud APIs.
+            </p>
+          </div>
+        </div>
+      </section>
       <!-- Section: User Guide -->
       <section id="userguide" class="pt-4 mb-4">
         <div class="card mb-4">
@@ -467,56 +457,32 @@
       </section>
     </div>
 
-    <!-- Explanation Modal (for clickable Entities/Functions) -->
-    <div
-      class="modal fade"
-      id="explanationModal"
-      tabindex="-1"
-      aria-labelledby="explanationModalLabel"
-      aria-hidden="true"
-    >
+    <!-- Explanation Modal -->
+    <div class="modal fade" id="explanationModal" tabindex="-1" aria-labelledby="explanationModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="explanationModalLabel">Details</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body" id="explanationModalBody">
-            <!-- LLM response will be inserted here -->
+            <!-- LLM response is inserted here -->
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Ingestion Results Modal -->
-    <div
-      class="modal fade"
-      id="ingestionResultsModal"
-      tabindex="-1"
-      aria-labelledby="ingestionResultsLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="ingestionResultsModal" tabindex="-1" aria-labelledby="ingestionResultsLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="ingestionResultsLabel">Ingestion Results</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-
           <div class="modal-body">
             <div class="mb-3">
               <label for="resultsDisplaySelect" class="form-label fw-semibold">Choose what to display:</label>
@@ -527,15 +493,9 @@
               </select>
             </div>
             <div class="mb-3">
-              <textarea
-                id="resultsDisplayArea"
-                class="form-control"
-                style="height: 250px; white-space: pre-wrap;"
-                readonly
-              ></textarea>
+              <textarea id="resultsDisplayArea" class="form-control" style="height: 250px; white-space: pre-wrap;" readonly></textarea>
             </div>
           </div>
-
           <div class="modal-footer">
             <button class="btn btn-secondary" onclick="copyCurrentIngestionView()">Copy Current View</button>
             <button class="btn btn-secondary" onclick="copyAllIngestionData()">Copy All</button>
@@ -545,7 +505,7 @@
       </div>
     </div>
 
-    <!-- NEW: Sample Files Modal -->
+    <!-- Sample Files Modal -->
     <div class="modal fade" id="sampleModal" tabindex="-1" aria-labelledby="sampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -555,20 +515,61 @@
           </div>
           <div class="modal-body">
             <ul id="sampleFileList" class="list-group">
-              <!-- This list will be populated dynamically via JS with file names from the data folder -->
+              <!-- Dynamically populated sample file list -->
             </ul>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Bootstrap JS, Mermaid, and custom script -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-      crossorigin="anonymous"
-    ></script>
+    <!-- Settings Modal -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="providerSelect" class="form-label">Select AI Provider</label>
+              <select id="providerSelect" class="form-select">
+                <option value="openai">OpenAI (GPT Models)</option>
+                <option value="gemini">Google Gemini</option>
+                <option value="claude">Anthropic Claude</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="modelSelect" class="form-label">Select Model</label>
+              <select id="modelSelect" class="form-select">
+                <!-- For OpenAI: "o3" (gpt-3.5-turbo) or "4o-mini" (gpt-4o-mini) -->
+                <!-- For Gemini and Claude: single option currently -->
+                <option value="o3">o3 (gpt-3.5-turbo)</option>
+                <option value="4o-mini">4o-mini (gpt-4o-mini)</option>
+                <option value="googleGemini">Google Gemini</option>
+                <option value="claude-3-7-sonnet-20250219">Anthropic Claude</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="saveSettingsBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save Settings</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS, Mermaid, and external script file -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@gramex/ui@0.3/dist/dark-theme.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <!-- External script.js file -->
     <script src="script.js"></script>
+
+    <!-- Inline script for Settings modal initialization (if needed) -->
+    <script>
+      // Set default global settings if not already set
+      window.llmProvider = window.llmProvider || "openai";
+      window.llmModel = window.llmModel || "o3";
+    </script>
   </body>
 </html>
